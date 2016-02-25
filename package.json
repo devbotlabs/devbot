@@ -15,7 +15,7 @@
     "homepage": "https://github.com/devbotlabs/devbot#readme",
     "dependencies": {
         "foreman": "1.4.1",
-        "nodemon": "1.9.0",
+        "nodemon": "1.9.1",
         "slackbots": "0.5.1",
         "stampit": "2.1.1"
     },
