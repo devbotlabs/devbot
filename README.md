@@ -1,5 +1,7 @@
 # DevBot by DevBotLabs
 
+[![Build Status](https://travis-ci.org/devbotlabs/devbot.svg?branch=master)](https://travis-ci.org/devbotlabs/devbot)
+
 ## Setup
 
 Install your node modules
