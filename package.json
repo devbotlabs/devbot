@@ -2,7 +2,7 @@
   "name": "devbot",
   "version": "0.0.1",
   "description": "Opensource, extensible Slack bot for dev teams (and more!)",
-  "main": "app.js",
+  "main": "./src/app.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/devbotlabs/devbot.git"
@@ -14,13 +14,26 @@
   },
   "homepage": "https://github.com/devbotlabs/devbot#readme",
   "dependencies": {
-    "babel": "6.5.2",
-    "babel-core": "6.5.2",
-    "babel-preset-es2015": "6.5.0",
     "foreman": "1.4.1",
-    "slackbots": "0.5.1"
+    "nodemon": "1.9.0",
+    "slackbots": "0.5.1",
+    "stampit": "2.1.1"
   },
   "scripts": {
-    "start": "nf start"
+    "start": "./node_modules/.bin/nf start",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register 'test/**/*.js'",
+    "coverage": "./node_modules/.bin/babel-node ./node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha -- 'test/**/*.js' --reporter dot"
+  },
+  "devDependencies": {
+    "babel": "6.5.2",
+    "babel-cli": "6.5.1",
+    "babel-core": "6.5.2",
+    "babel-preset-es2015": "6.5.0",
+    "chai": "3.5.0",
+    "isparta": "4.0.0",
+    "mocha": "2.4.5",
+    "mock-require": "1.2.1",
+    "mockery": "1.4.0",
+    "mocktail": "0.3.8"
   }
 }

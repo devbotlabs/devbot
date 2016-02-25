@@ -1,6 +1,5 @@
-import config from 'config';
-
 var SlackBot = require('slackbots');
+
 
 var bot = null;
 var botReadyPromise = new Promise();
@@ -12,9 +11,12 @@ setup = () => {
     });
 
     bot.on('start', () => {
-
         botReadyPromise.resolve();
     });
 };
 
-export {setup}
+postMessage = ({ message, channel }) => {
+
+};
+
+export default {setup, postMessage}
