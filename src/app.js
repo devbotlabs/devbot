@@ -1,4 +1,6 @@
-import slackBot from './bot-stamps/slack.js';
+import slackBot from './workers/slack-bot.js';
 
-const a = slackBot();
-
+const bot = slackBot();
+bot.onMessage(data => {
+    console.log(data);
+});

@@ -6,25 +6,29 @@ import {expect} from 'chai';
 import * as mockery from '../mocks/mockery.js';
 
 // Target
-import slackStamp from '../../src/bot-stamps/slack.js';
+import slackBotStamp from '../../src/workers/slack-bot.js';
 
-describe('slackStamp', () => {
+// Tests
+describe('slackBotStamp', () => {
 
     const output = [];
+    let slackbots = null;
 
     before(() => {
         mockery.setup({
             output: output
         });
+
+        slackbots = require('slackbots');
     });
 
     it('Should initialize the bot', () => {
-        const bot = slackStamp();
+        const bot = slackBotStamp();
         expect(bot.started).to.equal(true);
     });
 
     it('Should publish a simple message to a channel', (done) => {
-        const bot = slackStamp();
+        const bot = slackBotStamp();
 
         const message = 'hi';
         const channel = 'general';
@@ -53,7 +57,7 @@ describe('slackStamp', () => {
     });
 
     it('Should not post an empty message to a channel', (done) => {
-        const bot = slackStamp();
+        const bot = slackBotStamp();
 
         const message = '';
         const channel = 'general';
@@ -78,7 +82,7 @@ describe('slackStamp', () => {
     });
 
     it('Should post a simplemessage to a group', (done) => {
-        const bot = slackStamp();
+        const bot = slackBotStamp();
 
         const message = 'hi';
         const group = 'general';
@@ -107,7 +111,7 @@ describe('slackStamp', () => {
     });
 
     it('Should not post an empty message to a group', (done) => {
-        const bot = slackStamp();
+        const bot = slackBotStamp();
 
         const message = '';
         const group = 'general';
@@ -132,7 +136,7 @@ describe('slackStamp', () => {
     });
 
     it('Should throw an error when no channel or group are specified, but with a message', () => {
-        const bot = slackStamp();
+        const bot = slackBotStamp();
 
         const message = 'hey there';
 
@@ -145,6 +149,20 @@ describe('slackStamp', () => {
         };
 
         expect(fn).to.throw(Error);
+    });
+
+    it('Should be able to subscribe to messages and listen to new messages', (done) => {
+        const bot = slackBotStamp();
+
+        bot.onMessage((data) => {
+
+            done();
+        });
+
+        bot.bot.mockMessage({
+            type: 'message',
+            text: 'BLA'
+        });
     });
 
     after(() => {
