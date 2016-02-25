@@ -1,41 +1,41 @@
 {
-  "name": "devbot",
-  "version": "0.0.1",
-  "description": "Opensource, extensible Slack bot for dev teams (and more!)",
-  "main": "./src/app.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/devbotlabs/devbot.git"
-  },
-  "author": "Devbot Labs (Enrico Foschi, Adrian Jäger, Alessio Scarapazzi)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/devbotlabs/devbot/issues"
-  },
-  "homepage": "https://github.com/devbotlabs/devbot#readme",
-  "dependencies": {
-    "foreman": "1.4.1",
-    "nodemon": "1.9.0",
-    "slackbots": "0.5.1",
-    "stampit": "2.1.1"
-  },
-  "scripts": {
-    "start": "./node_modules/.bin/nf start",
-    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register 'test/**/*.js'",
-    "coverage": "./node_modules/.bin/babel-node ./node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha -- 'test/**/*.js' --reporter dot",
-    "codecov": "cat coverage/coverage.json | ./node_modules/.bin/codecov"
-  },
-  "devDependencies": {
-    "babel": "6.5.2",
-    "babel-cli": "6.5.1",
-    "babel-core": "6.5.2",
-    "babel-preset-es2015": "6.5.0",
-    "chai": "3.5.0",
-    "codecov": "1.0.1",
-    "isparta": "4.0.0",
-    "mocha": "2.4.5",
-    "mock-require": "1.2.1",
-    "mockery": "1.4.0",
-    "mocktail": "0.3.8"
-  }
+    "name": "devbot",
+    "version": "0.0.1",
+    "description": "Opensource, extensible Slack bot for dev teams (and more!)",
+    "main": "./src/app.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/devbotlabs/devbot.git"
+    },
+    "author": "Devbot Labs (Enrico Foschi, Adrian Jäger, Alessio Scarapazzi)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/devbotlabs/devbot/issues"
+    },
+    "homepage": "https://github.com/devbotlabs/devbot#readme",
+    "dependencies": {
+        "foreman": "1.4.1",
+        "nodemon": "1.9.0",
+        "slackbots": "0.5.1",
+        "stampit": "2.1.1"
+    },
+    "scripts": {
+        "start": "./node_modules/.bin/nf start",
+        "test": "./node_modules/.bin/mocha --compilers js:babel-core/register 'test/**/*.js'",
+        "coverage": "./node_modules/.bin/babel-node ./node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha -- 'test/**/*.js' --reporter dot",
+        "codecov": "cat coverage/coverage.json | ./node_modules/.bin/codecov"
+    },
+    "devDependencies": {
+        "babel": "6.5.2",
+        "babel-cli": "6.5.1",
+        "babel-core": "6.5.2",
+        "babel-preset-es2015": "6.5.0",
+        "chai": "3.5.0",
+        "codecov": "1.0.1",
+        "isparta": "4.0.0",
+        "mocha": "2.4.5",
+        "mock-require": "1.2.1",
+        "mockery": "1.4.0",
+        "mocktail": "0.3.8"
+    }
 }
