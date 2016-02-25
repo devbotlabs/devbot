@@ -1,5 +1,7 @@
 export default function(output) {
 
+    const callbacks = new Map();
+
     return function() {
         this.postMessageToChannel = (channel, message) => {
             output.push({
@@ -21,7 +23,18 @@ export default function(output) {
                 case 'start':
                     callback();
                     break;
+                default:
+                    callbacks.set(event, callback);
+                    break;
             }
         };
+
+        this.mockMessage = (messageData) => {
+            const msgCallback = callbacks.get('message');
+
+            if(msgCallback) {
+                msgCallback(messageData);
+            }
+        }
     };
 };
