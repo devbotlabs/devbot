@@ -151,7 +151,22 @@ describe('slackBotStamp', () => {
         expect(fn).to.throw(Error);
     });
 
-    it('Should be able to subscribe to messages and listen to new messages', (done) => {
+    it('Should not trigger a message event if the type is not message', (done) => {
+        const bot = slackBotStamp();
+
+        bot.onMessage((data) => {
+            done(e);
+        });
+
+        bot.bot.mockMessage({
+            type: 'something-else',
+            text: 'BLA'
+        });
+
+        setTimeout(() => done(), 50);
+    });
+
+    it('Should be able to subscribe to messages and listen to new text messages', (done) => {
         const bot = slackBotStamp();
 
         bot.onMessage((data) => {
