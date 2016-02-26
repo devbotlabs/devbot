@@ -142,6 +142,31 @@ describe('listenerTest', () => {
         }, 1);
     });
 
+    it('Should trim the message', (done) => {
+        const myListener = listener({bot: slackBot()});
+        const originalLength = output.length;
+
+        myListener.listen();
+        myListener.bot.bot.mockMessage({
+            channel: 'channel-id',
+            type: 'message',
+            text: '    ' + process.env.SLACK_BOT_NAME + ' parrot   '
+        });
+
+        setTimeout(() => {
+            try {
+                expect(output.length).to.equal(originalLength + 1);
+                expect(output[output.length - 1].message).to.contain('Parrot here');
+            }
+            catch(e) {
+                done(e);
+                return;
+            }
+
+            done();
+        }, 1);
+    });
+
     it('Should trigger the default command if nothing else except module name is specified', (done) => {
         const myListener = listener({bot: slackBot()});
         const originalLength = output.length;

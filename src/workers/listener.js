@@ -11,7 +11,7 @@ const listener = stampit({
             this.listening = true;
 
             this.bot.onMessage(message => {
-                const text = (message.text || '').toString().toLowerCase().trim();
+                const text = message.text.trim();
                 if (text.length && text.indexOf(process.env.SLACK_BOT_NAME) === 0) {
 
                     if (text.length === process.env.SLACK_BOT_NAME.length) {
