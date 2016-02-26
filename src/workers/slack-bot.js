@@ -1,18 +1,78 @@
 import stampit from 'stampit';
 import slackMessage from '../entities/slack-message.js';
 
-const slackStamp = stampit({
+const slackBot = stampit({
         refs: {
             setupPromise: null,
             started: false,
-            bot: null
+            bot: null,
+            api: null,
+            cachedChannels: new Map()
         },
         methods: {
-            postToSlack({message, channel, params, group}) {
+            getChannelName(channelId) {
+
+                const findChannelOrGroup = (resolve) => {
+                    this.api('channels.list', (error, response) => {
+                        const channel = response.channels.find(channel => channel.id === channelId);
+
+                        if (channel) {
+                            resolve({channel: channel.name});
+                        } else {
+                            this.api('groups.list', (error, response) => {
+                                const group = response.groups.find(group => group.id === channelId);
+
+                                if (group) {
+                                    resolve({group: group.name});
+                                } else {
+                                    resolve();
+                                }
+                            });
+                        }
+                    });
+                };
+
+                return new Promise(resolve => {
+                    const cachedChannel = this.cachedChannels.get(channelId);
+
+                    if(cachedChannel) {
+                        resolve(cachedChannel);
+                        return;
+                    }
+
+                    findChannelOrGroup((response) => {
+                        this.cachedChannels.set(channelId, response);
+                        resolve(response);
+                    });
+                });
+            },
+
+            postToSlack({message, channel, channelId, group}) {
 
                 // Empty message
                 if (!(message || '').toString().trim().length) {
                     return this.setupPromise;
+                }
+
+                // Reposting with the channel id
+                if (channelId) {
+                    return new Promise(resolve => {
+                        this.getChannelName(channelId).then(response => {
+                            if (!response) {
+                                throw new Error('No channel or group');
+                            } else {
+                                const properties = {
+                                    message: message,
+                                    group: response.group,
+                                    channel: response.channel
+                                };
+
+                                this.postToSlack(properties).then(() => {
+                                    resolve();
+                                });
+                            }
+                        });
+                    });
                 }
 
                 if (!channel && !group) {
@@ -29,6 +89,23 @@ const slackStamp = stampit({
                     if (group) {
                         this.bot.postMessageToGroup(group, message);
                     }
+                });
+            },
+
+            replyToSlack(message, reply) {
+
+                // Empty reply
+                if (!(reply || '').toString().trim().length) {
+                    return this.setupPromise;
+                }
+
+                if (!message.channel) {
+                    throw new Error('No channel');
+                }
+
+                this.postToSlack({
+                    message: reply,
+                    channelId: message.channel
                 });
             },
 
@@ -57,6 +134,8 @@ const slackStamp = stampit({
         {
 
             const SlackBot = require('slackbots');
+            const SlackNode = require('slack-node');
+            this.api = (new SlackNode(process.env.SLACK_BOT_TOKEN)).api;
 
             this.bot = new SlackBot({
                 token: process.env.SLACK_BOT_TOKEN,
@@ -73,4 +152,4 @@ const slackStamp = stampit({
     })
     ;
 
-export default slackStamp;
+export default slackBot;

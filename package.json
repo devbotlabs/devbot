@@ -14,8 +14,10 @@
     },
     "homepage": "https://github.com/devbotlabs/devbot#readme",
     "dependencies": {
+        "escape-string-regexp": "1.0.5",
         "foreman": "1.4.1",
         "nodemon": "1.9.1",
+        "slack-node": "0.2.0",
         "slackbots": "0.5.1",
         "stampit": "2.1.1"
     },

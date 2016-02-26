@@ -9,7 +9,7 @@ import * as mockery from '../mocks/mockery.js';
 import slackBotStamp from '../../src/workers/slack-bot.js';
 
 // Tests
-describe('slackBotStamp', () => {
+describe('slackbotTest', () => {
 
     const output = [];
     let slackbots = null;
@@ -163,21 +163,46 @@ describe('slackBotStamp', () => {
             text: 'BLA'
         });
 
+        bot.bot.mockMessage({
+            type: 'something-else',
+            text: process.env.SLACK_BOT_NAME + ' BLA'
+        });
+
         setTimeout(() => done(), 50);
     });
 
     it('Should be able to subscribe to messages and listen to new text messages', (done) => {
         const bot = slackBotStamp();
 
+        const message = {
+            text: process.env.SLACK_BOT_NAME + ' bla',
+            channel: 'my channel',
+            team: 'my team',
+            user: 'my user',
+            type: 'message',
+            ts: 12345
+        }
+
         bot.onMessage((data) => {
+
+            try {
+                expect(data).to.eql({
+                    text: message.text,
+                    channel: message.channel,
+                    team: message.team,
+                    user: message.user,
+                    ts: message.ts
+                });
+            }
+            catch(e) {
+                done(e);
+                return;
+            }
 
             done();
         });
 
-        bot.bot.mockMessage({
-            type: 'message',
-            text: 'BLA'
-        });
+        bot.bot.mockMessage(message);
     });
 
     after(() => {

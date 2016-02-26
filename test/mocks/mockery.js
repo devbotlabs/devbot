@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 const mockery = require('mockery');
 
-const setup = ({output}) => {
+const setup = ({output} = {output: []}) => {
     mockery.registerMock('slackbots', slackbots(output));
     mockery.enable({ useCleanCache: true });
     dotenv.config({

@@ -1,6 +1,6 @@
 const stampit = require('stampit');
 
-const slackMessageStamp = stampit({
+const slackMessage = stampit({
     refs: {
         text: null,
         channel: null,
@@ -10,4 +10,4 @@ const slackMessageStamp = stampit({
     }
 });
 
-export default slackMessageStamp;
+export default slackMessage;
