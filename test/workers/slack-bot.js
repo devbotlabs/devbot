@@ -83,7 +83,7 @@ describe('slackbotTest', () => {
         });
     });
 
-    it('Should post a simplemessage to a group', (done) => {
+    it('Should post a simple message to a group', (done) => {
         const bot = slackBot();
 
         const message = 'hi';
@@ -259,6 +259,39 @@ describe('slackbotTest', () => {
 
             done();
         });
+    });
+
+    it('Should not post to anything if the channel id is not found', (done) => {
+        const bot = slackBot();
+        const originalOutputLength = output.length;
+
+        bot.postToSlack({
+            channelId: 'group-id-404',
+            message: 'Ciao'
+        }).then(() => {
+            expect(output.length).to.equal(originalOutputLength);
+            done();
+        });
+    });
+
+    it('Should not post empty replies', (done) => {
+        const bot = slackBot();
+        const originalInputLength = input.length;
+
+        bot.replyToSlack({}, '').then(() => {
+            expect(input.length).to.equal(originalInputLength);
+            done();
+        });
+    });
+
+    it('Should not post when the channel is missing', () => {
+        const bot = slackBot();
+
+        const fn = () => {
+            bot.replyToSlack({}, 'Hey');
+        }
+
+        expect(fn).to.throw(Error);
     });
 
     after(() => {

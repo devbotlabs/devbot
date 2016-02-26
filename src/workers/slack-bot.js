@@ -59,9 +59,7 @@ const slackBot = stampit({
                     return new Promise(resolve => {
                         this.getChannelName(channelId).then(response => {
 
-                            if (!response) {
-                                throw new Error('No channel or group');
-                            } else {
+                            if (response) {
                                 const properties = {
                                     message: message,
                                     group: response.group,
@@ -71,6 +69,8 @@ const slackBot = stampit({
                                 this.postToSlack(properties).then(() => {
                                     resolve();
                                 });
+                            } else {
+                                resolve();
                             }
                         });
                     });
