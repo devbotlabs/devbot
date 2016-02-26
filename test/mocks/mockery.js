@@ -7,8 +7,10 @@ const setup = ({output}) => {
     mockery.registerMock('slackbots', slackbots(output));
     mockery.enable({ useCleanCache: true });
     dotenv.config({
-        path: '../'
+        path: __dirname + '/../.env'
     });
+
+    dotenv.load();
 };
 const tearDown = () => {
     mockery.disable();
