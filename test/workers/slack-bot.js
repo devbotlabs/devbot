@@ -6,29 +6,31 @@ import {expect} from 'chai';
 import * as mockery from '../mocks/mockery.js';
 
 // Target
-import slackBotStamp from '../../src/workers/slack-bot.js';
+import slackBot from '../../src/workers/slack-bot.js';
 
 // Tests
 describe('slackbotTest', () => {
 
     const output = [];
+    const input = [];
     let slackbots = null;
 
     before(() => {
         mockery.setup({
-            output: output
+            output: output,
+            input: input
         });
 
         slackbots = require('slackbots');
     });
 
     it('Should initialize the bot', () => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
         expect(bot.started).to.equal(true);
     });
 
     it('Should publish a simple message to a channel', (done) => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
 
         const message = 'hi';
         const channel = 'general';
@@ -57,7 +59,7 @@ describe('slackbotTest', () => {
     });
 
     it('Should not post an empty message to a channel', (done) => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
 
         const message = '';
         const channel = 'general';
@@ -82,7 +84,7 @@ describe('slackbotTest', () => {
     });
 
     it('Should post a simplemessage to a group', (done) => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
 
         const message = 'hi';
         const group = 'general';
@@ -111,7 +113,7 @@ describe('slackbotTest', () => {
     });
 
     it('Should not post an empty message to a group', (done) => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
 
         const message = '';
         const group = 'general';
@@ -136,7 +138,7 @@ describe('slackbotTest', () => {
     });
 
     it('Should throw an error when no channel or group are specified, but with a message', () => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
 
         const message = 'hey there';
 
@@ -152,7 +154,7 @@ describe('slackbotTest', () => {
     });
 
     it('Should not trigger a message event if the type is not message', (done) => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
 
         bot.onMessage((data) => {
             done(e);
@@ -168,11 +170,11 @@ describe('slackbotTest', () => {
             text: process.env.SLACK_BOT_NAME + ' BLA'
         });
 
-        setTimeout(() => done(), 50);
+        setTimeout(() => done(), 1);
     });
 
     it('Should be able to subscribe to messages and listen to new text messages', (done) => {
-        const bot = slackBotStamp();
+        const bot = slackBot();
 
         const message = {
             text: process.env.SLACK_BOT_NAME + ' bla',
@@ -203,6 +205,60 @@ describe('slackbotTest', () => {
         });
 
         bot.bot.mockMessage(message);
+    });
+
+    it('Should post to the right channel by id', (done) => {
+        const bot = slackBot();
+        const message = 'Ciao!';
+
+        bot.postToSlack({
+            channelId: 'channel-id',
+            message: message
+        }).then(() => {
+
+            const lastMessage = output[output.length - 1];
+
+            try {
+                expect(lastMessage).to.be.a('object');
+                expect(lastMessage).to.eql({
+                    message: message,
+                    channel: 'channel-name'
+                });
+            }
+            catch (e) {
+                done(e);
+                return;
+            }
+
+            done();
+        });
+    });
+
+    it('Should post to the right group by id', (done) => {
+        const bot = slackBot();
+        const message = 'Ciao!';
+
+        bot.postToSlack({
+            channelId: 'group-id',
+            message: message
+        }).then(() => {
+
+            const lastMessage = output[output.length - 1];
+
+            try {
+                expect(lastMessage).to.be.a('object');
+                expect(lastMessage).to.eql({
+                    message: message,
+                    group: 'group-name'
+                });
+            }
+            catch (e) {
+                done(e);
+                return;
+            }
+
+            done();
+        });
     });
 
     after(() => {

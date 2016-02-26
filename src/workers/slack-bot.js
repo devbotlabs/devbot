@@ -58,6 +58,7 @@ const slackBot = stampit({
                 if (channelId) {
                     return new Promise(resolve => {
                         this.getChannelName(channelId).then(response => {
+
                             if (!response) {
                                 throw new Error('No channel or group');
                             } else {
@@ -132,9 +133,9 @@ const slackBot = stampit({
         },
         init()
         {
-
             const SlackBot = require('slackbots');
             const SlackNode = require('slack-node');
+
             this.api = (new SlackNode(process.env.SLACK_BOT_TOKEN)).api;
 
             this.bot = new SlackBot({
