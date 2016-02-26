@@ -20,7 +20,7 @@ const setup = ({output, input} = {output: [], input: []}) => {
     });
 
     dotenv.config({
-        path: __dirname + '/../.env'
+        path: __dirname + '/../.test.env'
     });
 
     dotenv.load();

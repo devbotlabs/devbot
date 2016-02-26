@@ -12,8 +12,8 @@ import slackBot from '../../src/workers/slack-bot.js';
 // Tests
 describe('listenerTest', () => {
 
-    const output = []
-    const input = []
+    const output = [];
+    const input = [];
 
     before(() => {
         mockery.setup({
