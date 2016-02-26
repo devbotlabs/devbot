@@ -44,10 +44,14 @@ const listener = stampit({
                             }
 
                             // Printing info for the module
-                            if (matches.length == 2) {
+                            if ((matches.length === 2 && !moduleInstance.commands.default) ||
+                                (matches.length > 2 && matches[2].trim() === 'help')
+                            ) {
                                 this.bot.replyToSlack(message, '*' +moduleName + '*: `' + moduleInstance.help + '`');
                             } else { // Executing command
-                                const command = matches[2].trim();
+                                const command = matches.length === 2 ?
+                                    moduleInstance.commands.default :
+                                    matches[2].trim();
 
                                 if (!moduleInstance.commands[command]) {
                                     this.bot.replyToSlack(message, command + ' is not recognized as a valid command for ' +
