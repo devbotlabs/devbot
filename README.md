@@ -22,7 +22,6 @@ npm start
 ## Test
 
 ```
-cd test
-make test
-make coverage
+npm test
+npm run coverage
 ```
