@@ -10,7 +10,6 @@ const listener = stampit({
             this.bot.onMessage(message => {
                 const text = message.text.trim();
                 if (text.length && text.toLocaleLowerCase().indexOf(process.env.SLACK_BOT_NAME.toLocaleLowerCase()) === 0) {
-                    console.log("true");
                     if (text.length === process.env.SLACK_BOT_NAME.length) {
                         this.bot.replyToSlack(message, 'What?');
                     } else {
