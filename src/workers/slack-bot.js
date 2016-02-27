@@ -1,5 +1,5 @@
 import stampit from 'stampit';
-import slackMessage from '../entities/slack-message.js';
+import slackMessage from '../entities/slack-message';
 
 const slackBot = stampit({
         refs: {

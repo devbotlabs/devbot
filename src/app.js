@@ -1,5 +1,5 @@
-import slackBot from './workers/slack-bot.js';
-import listener from './workers/listener.js';
+import slackBot from './workers/slack-bot';
+import listener from './workers/listener';
 
 const bot = slackBot();
 

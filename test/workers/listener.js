@@ -3,11 +3,11 @@ import {describe, it, before, after} from 'mocha';
 import {expect} from 'chai';
 
 // Mocks
-import * as mockery from '../mocks/mockery.js';
+import * as mockery from '../mocks/mockery';
 
 // Target
-import listener from '../../src/workers/listener.js';
-import slackBot from '../../src/workers/slack-bot.js';
+import listener from '../../src/workers/listener';
+import slackBot from '../../src/workers/slack-bot';
 
 // Tests
 describe('listenerTest', () => {
@@ -20,17 +20,6 @@ describe('listenerTest', () => {
             output: output,
             input: input
         });
-    });
-
-    it('Should initialize the listener', () => {
-        const myListener = listener({bot: slackBot()});
-        myListener.listen();
-        expect(myListener.listening).to.equal(true);
-    });
-
-    it('Should not be listening if not requested', () => {
-        const myListener = listener({bot: slackBot()});
-        expect(myListener.listening).to.equal(false);
     });
 
     it('Should not be firing the trigger if the message is empty', (done) => {

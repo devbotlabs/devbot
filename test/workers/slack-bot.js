@@ -3,10 +3,10 @@ import {describe, it, before, after} from 'mocha';
 import {expect} from 'chai';
 
 // Mocks
-import * as mockery from '../mocks/mockery.js';
+import * as mockery from '../mocks/mockery';
 
 // Target
-import slackBot from '../../src/workers/slack-bot.js';
+import slackBot from '../../src/workers/slack-bot';
 
 // Tests
 describe('slackbotTest', () => {

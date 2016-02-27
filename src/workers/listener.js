@@ -3,13 +3,10 @@ import escapeStringRegexp from 'escape-string-regexp';
 
 const listener = stampit({
     refs: {
-        bot: null,
-        listening: false
+        bot: null
     },
     methods: {
         listen() {
-            this.listening = true;
-
             this.bot.onMessage(message => {
                 const text = message.text.trim();
                 if (text.length && text.indexOf(process.env.SLACK_BOT_NAME) === 0) {
@@ -27,7 +24,7 @@ const listener = stampit({
                         let moduleInstance = null;
 
                         try {
-                            moduleInstance = require('../modules/' + moduleName + '.js').default;
+                            moduleInstance = require('../modules/' + moduleName).default;
                         }
                         catch (e) {
                             this.bot.replyToSlack(message, moduleName + ' does not exist...');
