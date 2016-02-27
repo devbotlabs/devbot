@@ -14,14 +14,16 @@
     },
     "homepage": "https://github.com/devbotlabs/devbot#readme",
     "dependencies": {
+        "escape-string-regexp": "1.0.5",
         "foreman": "1.4.1",
         "nodemon": "1.9.1",
+        "slack-node": "0.2.0",
         "slackbots": "0.5.1",
         "stampit": "2.1.1"
     },
     "scripts": {
         "start": "./node_modules/.bin/nf start",
-        "test": "./node_modules/.bin/mocha --compilers js:babel-core/register 'test/**/*.js'",
+        "test": "./node_modules/.bin/mocha --harmony --compilers js:babel-core/register 'test/**/*.js'",
         "coverage": "./node_modules/.bin/babel-node ./node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha -- 'test/**/*.js' --reporter dot",
         "codecov": "cat coverage/coverage.json | ./node_modules/.bin/codecov"
     },

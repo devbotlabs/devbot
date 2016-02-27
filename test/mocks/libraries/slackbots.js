@@ -1,4 +1,4 @@
-export default function(output) {
+export default function(output, input) {
 
     const callbacks = new Map();
 
@@ -30,6 +30,8 @@ export default function(output) {
         };
 
         this.mockMessage = (messageData) => {
+            input.push(messageData);
+
             const msgCallback = callbacks.get('message');
 
             if(msgCallback) {

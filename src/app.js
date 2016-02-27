@@ -1,6 +1,8 @@
-import slackBot from './workers/slack-bot.js';
+import slackBot from './workers/slack-bot';
+import listener from './workers/listener';
 
 const bot = slackBot();
-bot.onMessage(data => {
-    console.log(data);
-});
+
+listener({
+    bot: bot
+}).listen();
